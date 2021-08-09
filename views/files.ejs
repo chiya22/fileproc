@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/stylesheets/destyle.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+  <title>ファイル管理</title>
+</head>
+
+<body>
+  <div class="main-container">
+    <% if (flashMessages) { %>
+      <% if (flashMessages.success) { %>
+          <p>メッセージ：<%= flashMessages.success %></p>
+      <% } %>
+    <% } %>
+    <ul>
+      <% if (files) { %>
+      <%  files.forEach( file => { %>
+      <li>
+        <form method="POST" action="/files/download">
+          <p><%= file.originalname %><input type="submit" value="ダウンロード" /></p>
+          <input type="hidden" name="id" value="<%= file.id %>" />
+        </form>
+      </li>
+      <%  }) %>
+      <% } %>
+    </ul>
+    <form method="POST" action="/files/upload" enctype="multipart/form-data">
+      <input type="file" name="file" />
+      <input type="submit" value="アップロード" />
+    </form>
+  </div>
+</body>
+
+</html>

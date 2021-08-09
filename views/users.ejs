@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/stylesheets/destyle.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+  <title>バイトシフト調整</title>
+</head>
+
+<body>
+  <div class="main-container">
+    <ul>
+      <% if (users) { %>
+      <%  users.forEach( user => { %>
+      <li>
+        <a class="btn" href="users/update/<%= user.id %>">
+          <%= user.name %>（<%= user.id %>）
+        </a>
+      </li>
+      <%  }) %>
+      <% } %>
+    </ul>
+    <div class="btn-footer">
+      <a class="btn-link" href="users/insert">新規登録</a>
+    </div>
+    <div class="btn-footer">
+      <a href="/" class="btn-link">戻る</a>
+      <% if (locals.user){ %>
+        <form method="POST" action="/logout">
+          <input type="submit" class="btn-link" button value="ログアウト" />
+        </form>
+      <% } %>
+      </div>
+  </div>
+</body>
+
+</html>
