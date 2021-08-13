@@ -13,7 +13,7 @@ const findPKey = async (id, ymd_end) => {
 
 const findPKeyActive = async (id, ymd) => {
     try {
-        const retObj = await knex.from("users").where('id',id).andWhere('ymd_end','>=',ymd).andWhere('ymd_start', '<', ymd);
+        const retObj = await knex.from("users").where('id',id).andWhere('ymd_end','>=',ymd).andWhere('ymd_start', '<=', ymd);
         return retObj;
     } catch(err) {
         throw err;
