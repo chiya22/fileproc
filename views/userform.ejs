@@ -10,37 +10,32 @@
 
 <body>
   <div class="main-container">
-    <% if (message && message.length !== 0) { %>
-      <div class="alert">
-        <p class="alert-danger"><%= message %></p>
-      </div>
+    <% if (flashMessages) { %>
+      <% if (flashMessages.msg) { %>
+        <div class="alert">
+          <p class="alert-danger"><%= flashMessages.msg %></p>
+        </div>
+      <% } %>
     <% } %>
     <form name="userform" method="POST">
       <div class="form-area">
       <% if (mode === "insert") { %>
-        <% 
-          const value_id = selectuser?selectuser.id:null;
-          const value_name = selectuser?selectuser.name:null;
-          const value_password = selectuser?selectuser.password:null;
-          const value_role = selectuser?selectuser.role:null;
-        %> 
-        <div><input class="form-item-style" type="text" name="id" placeholder="ID" value="<%= value_id %>" autofocus required></div> 
-        <div><input class="form-item-style" type="text" name="name" placeholder="名前" value="<%= value_name %>" required></div> 
-        <div><input class="form-item-style" type="password" name="password" placeholder="パスワード" value="<%= value_password %>" required></div> 
-        <div><input class="form-item-style" type="text" placeholder="権限" value="<%= value_role %>" name="role"></div>  
+        <div><input class="form-item-style" type="text" name="id" placeholder="ID" value="" autofocus required></div> 
+        <div><input class="form-item-style" type="text" name="name" placeholder="名前" value="" required></div> 
+        <div><input class="form-item-style" type="password" name="password" placeholder="パスワード" value="" required></div> 
+        <div><input class="form-item-style" type="text" placeholder="権限" value="" name="role"></div>  
+        <div><input class="form-item-style" type="text" placeholder="適用開始日" name="ymd_start" value="" required></div> 
+        <div><input class="form-item-style" type="text" placeholder="適用終了日" name="ymd_end" value="" required></div> 
         <input class="btn-update" type="button" id="btn_insert" value="登録">
 
       <% } else { %>
         <div><input class="form-item-readonly-style" type="text" name="id" placeholder="ID" value="<%= selectuser.id %>"></div>
-        <% if (mode === "updatepwd") { %>
-          <div><input class="form-item-readonly-style" type="text" name="name" value="<%= selectuser.name %>" readonly></div>
-          <div><input class="form-item-style" type="password" name="password" placeholder="パスワード" value=""></div>  
-          <div><input class="form-item-readonly-style" type="text" name="role" value="<%= selectuser.role %>" readonly></div> 
-        <% } else { %>
-          <div><input class="form-item-style" type="text" name="name" placeholder="名前" value="<%= selectuser.name %>" autofocus required></div>
-          <div><input class="form-item-style" type="password" name="password" placeholder="パスワード" value="" required></div>  
-          <div><input class="form-item-style" type="text" name="role" placeholder="権限" value="<%= selectuser.role %>"></div> 
-        <% } %>
+        <div><input class="form-item-style" type="text" name="name" placeholder="名前" value="<%= selectuser.name %>" autofocus required></div>
+        <div><input class="form-item-style" type="password" name="password" placeholder="パスワード" value="" required></div>
+        <div><input class="form-item-style" type="text" name="role" placeholder="権限" value="<%= selectuser.role %>"></div> 
+        <div><input class="form-item-style" type="text" name="ymd_start" placeholder="適用開始日" value="<%= selectuser.ymd_start %>"></div> 
+        <div><input class="form-item-style" type="text" name="ymd_end" placeholder="適用終了日" value="<%= selectuser.ymd_end %>"></div> 
+        <input type="hidden" name="before_ymd_end" value="<%= selectuser.ymd_end %>">
         <input type="hidden" name="ymd_add" value="<%= selectuser.ymd_add %>">
         <input type="hidden" name="id_add" value="<%= selectuser.id_add %>">
         <input type="hidden" name="ymd_upd" value="<%= selectuser.ymd_upd %>">
@@ -85,7 +80,7 @@
     let deletebtn = document.getElementById("btn_delete");
     if (deletebtn) {
       deletebtn.addEventListener("click", () => {
-        document.userform.action = "delete";
+        document.userform.action = "/users/update/delete";
         document.userform.submit();
       })
     }

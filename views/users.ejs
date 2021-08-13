@@ -5,17 +5,24 @@
   <link rel="stylesheet" href="/stylesheets/destyle.css" />
   <link rel="stylesheet" href="/stylesheets/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
-  <title>バイトシフト調整</title>
+  <title>ユーザー情報一覧</title>
 </head>
 
 <body>
   <div class="main-container">
+    <% if (flashMessages) { %>
+      <% if (flashMessages.msg) { %>
+        <div class="alert">
+          <p class="alert-danger"><%= flashMessages.msg %></p>
+        </div>
+      <% } %>
+    <% } %>
     <ul>
       <% if (users) { %>
       <%  users.forEach( user => { %>
       <li>
-        <a class="btn" href="users/update/<%= user.id %>">
-          <%= user.name %>（<%= user.id %>）
+        <a class="btn" href="users/update/<%= user.id %>/<%= user.ymd_end %>">
+          <%= user.name %>（<%= user.id %>） 適用開始：<%= user.ymd_start %>　適用終了：<%= user.ymd_end %>
         </a>
       </li>
       <%  }) %>

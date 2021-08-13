@@ -6,3 +6,34 @@ body {
 a {
   color: #00B7FF;
 }
+
+.form-item-style {
+  color: #8a8a8a;
+  /* display: block; */
+  width: 200px;
+  height: 30px;
+  padding: 5px 20px;
+  border: 1px solid #ccc;
+  border-radius: 27px;
+  background-clip: padding-box;
+  background-color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  margin: 5px;
+}
+
+.form-item-style:focus {
+  outline: none;
+  border: 1px solid #333;
+  color: #333;
+}
+
+.form-item-readonly-style {
+  color: #8a8a8a;
+  display: block;
+  width: 200px;
+  height: 30px;
+  padding: 5px 20px;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+}

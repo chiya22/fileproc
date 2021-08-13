@@ -2,7 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const hash = require("./hash.js").digest;
 const users = require('../model/users');
-
+const tool = require('../util/tool');
 
 passport.serializeUser((user, done) => {
     done(null, user);
@@ -19,12 +19,12 @@ passport.use("local-strategy", new LocalStrategy({
 }, (req, username, password, done) => {
 
     async function main() {
-        const retObj = await users.findPKey(username)
+        const retObj = await users.findPKeyActive(username,tool.getYYYYMMDD(new Date()));
         if (!retObj) {
-            done(null, false, req.flash("message", "ユーザー名　または　パスワード　が間違っています。"));
+            done(null, false, req.flash("msg", "ユーザー名　または　パスワード　が間違っています。"));
         } else {
             if (retObj.length === 0) {
-                done(null, false, req.flash("message", "ユーザー名　または　パスワード　が間違っています。"));
+                done(null, false, req.flash("msg", "ユーザー名　または　パスワード　が間違っています。"));
             } else {
                 if (retObj[0].password === hash(password)) {
                     req.session.regenerate((err) => {
@@ -35,7 +35,7 @@ passport.use("local-strategy", new LocalStrategy({
                         }
                     });
                 } else {
-                    done(null, false, req.flash("message", "ユーザー名　または　パスワード　が間違っています。"));
+                    done(null, false, req.flash("msg", "ユーザー名　または　パスワード　が間違っています。"));
                 }
             }
         }

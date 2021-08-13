@@ -22,7 +22,7 @@ const find = async () => {
 
 const insert = async (inObj) => {
     try {
-        const query = "insert into files (name, path, originalname, ymd_add, id_add, ymd_upd, id_upd)  values ('" + inObj.name + "','" + inObj.path.replace('\\','\\\\') + "','" + inObj.originalname + "','" + inObj.ymd_add + "','" + inObj.id_add + "','" + inObj.ymd_upd + "','" + inObj.id_upd + "')";
+        const query = "insert into files (name, path, originalname, owners, ymd_add, id_add, ymd_upd, id_upd)  values ('" + inObj.name + "','" + inObj.path.replace('\\','\\\\') + "','" + inObj.originalname + "','" + inObj.owners + "','" + inObj.ymd_add + "','" + inObj.id_add + "','" + inObj.ymd_upd + "','" + inObj.id_upd + "')";
         logger.info(query);
         const retObj = await knex.raw(query)
         return retObj;

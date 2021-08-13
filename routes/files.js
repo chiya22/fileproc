@@ -41,6 +41,7 @@ router.post("/upload", security.authorize(), upload.single("file"), (req,res, ne
   inObjFiles.name = req.file.filename;
   inObjFiles.originalname = req.file.originalname;
   inObjFiles.path = req.file.path;
+  inObjFiles.owners = req.user.id;
   inObjFiles.ymd_add = tool.getYYYYMMDD(new Date());
   inObjFiles.id_add = req.user.id;
   inObjFiles.ymd_upd = tool.getYYYYMMDD(new Date());
@@ -50,7 +51,7 @@ router.post("/upload", security.authorize(), upload.single("file"), (req,res, ne
     try {
       const retObjFilesInsert = await files.insert(inObjFiles);
       const retObjFiles = await files.find();
-      req.flash("success", "アップロードしました：" + inObjFiles.originalname);
+      req.flash("msg", "アップロードしました：" + inObjFiles.originalname);
       res.redirect(req.baseUrl);
     } catch (err) {
       throw err;

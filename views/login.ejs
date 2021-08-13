@@ -2,27 +2,32 @@
 <html>
 
 <head>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="/stylesheets/destyle.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+  <title>ログイン</title>
 </head>
 
 <body>
-  <form action="/login" method="post">
+  <% if (flashMessages) { %>
+    <% if (flashMessages.msg) { %>
+      <div class="alert">
+        <p class="alert-danger"><%= flashMessages.msg %></p>
+      </div>
+    <% } %>
+  <% } %>
+<form action="/login" method="post">
     <div>
       <label>ユーザーID：</label>
-      <input type="text" name="username" />
+      <input type="text" class="form-item-style" name="username" autofocus />
     </div>
     <div>
       <label>パスワード：</label>
-      <input type="password" name="password" />
+      <input type="password" class="form-item-style" name="password" />
     </div>
     <div>
       <input type="submit" value="ログイン" />
     </div>
-    <% if (message && message.length !== 0) { %>
-    <div class="alert alert-danger">
-      <%= message %>
-    </div>
-    <% } %>
   </form>
 </body>
 
