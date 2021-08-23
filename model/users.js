@@ -20,10 +20,10 @@ const findPKeyActive = async (id, ymd) => {
     }
 };
 
-const checkInterval = async (id, ymd_start, ymd_end, before_ymd_end) => {
+const checkInterval = async (id, ymd_start, ymd_end, before_ymd_start, before_ymd_end) => {
     try {
         // const retObj = await knex.from("users").where('id',id).andWhere('ymd_start','<',ymd_end).andWhere('ymd_end', '>', ymd_start);
-        const query = "select * from users where id = '" + id + "' and ymd_start <= '" + ymd_end + "' and ymd_end >= '" + ymd_start + "' and (id, ymd_start, ymd_end) NOT IN (('" + id + "','" + ymd_start + "','" + before_ymd_end + "'));"
+        const query = "select * from users where id = '" + id + "' and ymd_start <= '" + ymd_end + "' and ymd_end >= '" + ymd_start + "' and (id, ymd_start, ymd_end) NOT IN (('" + id + "','" + before_ymd_start + "','" + before_ymd_end + "'));"
         const retObj = knex.raw(query);
         return retObj;
     } catch(err) {

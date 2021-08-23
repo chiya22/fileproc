@@ -12,6 +12,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const userRouter = require('./routes/user');
 const filesRouter = require('./routes/files');
 
 const app = express();
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/user', userRouter);
 app.use('/files', filesRouter);
 
 // catch 404 and forward to error handler

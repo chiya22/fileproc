@@ -21,7 +21,7 @@
       <% if (users) { %>
       <%  users.forEach( user => { %>
       <li>
-        <a class="btn" href="users/update/<%= user.id %>/<%= user.ymd_end %>">
+        <a class="btn" href="user/<%= user.id %>/<%= user.ymd_end %>">
           <%= user.name %>（<%= user.id %>） 適用開始：<%= user.ymd_start %>　適用終了：<%= user.ymd_end %>
         </a>
       </li>
@@ -29,7 +29,7 @@
       <% } %>
     </ul>
     <div class="btn-footer">
-      <a class="btn-link" href="users/insert">新規登録</a>
+      <a class="btn-link" href="user/">新規登録</a>
     </div>
     <div class="btn-footer">
       <a href="/" class="btn-link">戻る</a>
