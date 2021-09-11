@@ -51,7 +51,7 @@
       </div>
     </form>
     <div class="btn-footer">
-      <a href="/users" class="btn-link">戻る</a>
+      <a href="/admin/users" class="btn-link">戻る</a>
       <% if (locals.user){ %>
         <form method="POST" action="/logout">
           <input type="submit" class="btn-link" button value="ログアウト" />
@@ -63,21 +63,21 @@
     let insertbtn = document.getElementById("btn_insert");
     if (insertbtn) {
       insertbtn.addEventListener("click", () => {
-        document.userform.action = "/user/insert";
+        document.userform.action = "/admin/user/insert";
         document.userform.submit();
       })
     }
     let updatebtn = document.getElementById("btn_update");
     if (updatebtn) {
       updatebtn.addEventListener("click", () => {
-        document.userform.action = "/user/update";
+        document.userform.action = "/admin/user/update";
         document.userform.submit();
       })
     }
     let deletebtn = document.getElementById("btn_delete");
     if (deletebtn) {
       deletebtn.addEventListener("click", () => {
-        document.userform.action = "/user/delete";
+        document.userform.action = "/admin/user/delete";
         document.userform.submit();
       })
     }

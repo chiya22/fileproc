@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
+
+<body>
+  <% if (flashMessages) { %>
+    <% if (flashMessages.msg) { %>
+      <div class="alert">
+        <p class="alert-danger"><%= flashMessages.msg %></p>
+      </div>
+    <% } %>
+  <% } %>
+<h1><%= title %></h1>
+  <p>Welcome to <%= title %></p>
+  <a href="/admin/users">ユーザ情報管理</a>
+  <a href="/admin/files">ファイル情報管理</a>
+  <a href="/admin/posts">投稿情報管理</a>
+  <% if (locals.user){ %>
+  <form method="POST" action="/logout">
+    <input type="submit" button value="ログアウト" />
+  </form>
+  <% } %>
+</body>
+
+</html>

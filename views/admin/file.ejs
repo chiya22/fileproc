@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/stylesheets/destyle.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+  <title>ファイル管理</title>
+</head>
+
+<body>
+  <div class="main-container">
+    <% if (flashMessages) { %>
+      <% if (flashMessages.msg) { %>
+        <div class="alert">
+          <p class="alert-danger"><%= flashMessages.msg %></p>
+        </div>
+      <% } %>
+    <% } %>
+    <% if (mode === "insert") { %>
+      <form method="POST" action="/admin/file/insert" enctype="multipart/form-data">
+        <input type="text" name="title" class="form-item-style" placeholder="タイトル" autofocus required/>
+        <input type="text" name="content" class="form-item-style" placeholder="コンテンツ"/>
+        <input type="text" name="readers" class="form-item-style" placeholder="参照可能者"/>
+        <input type="text" name="editors" class="form-item-style" placeholder="編集可能者"/>
+        <input type="file" name="file" required />
+        <% if (!file) { %>
+          <input type="submit" value="登録" />
+        <% } %>
+      </form>
+    <% } else { %>
+      <form method="POST" action="/admin/file/update">
+        <input type="hidden" name="id" value="<%= file.id %>" />
+        <input type="text" name="title" class="form-item-style" placeholder="タイトル" value="<%= file.title %>" autofocus required/>
+        <input type="text" name="content" class="form-item-style" placeholder="コンテンツ" value="<%= file.content %>" />
+        <input type="text" name="readers" class="form-item-style" placeholder="参照可能者" value="<%= file.readers %>" />
+        <input type="text" name="editors" class="form-item-style" placeholder="編集可能者" value="<%= file.editors %>" />
+        <input type="hidden" name="filename" value="<%= file.filename %>" />
+        <input type="hidden" name="originalfilename" value="<%= file.originalfilename %>" />
+        <input type="hidden" name="filepath" value="<%= file.filepath %>" />
+        <input type="hidden" name="ymd_add" value="<%= file.ymd_add %>" />
+        <input type="hidden" name="id_add" value="<%= file.id_add %>" />
+        <input type="hidden" name="ymd_upd" value="<%= file.ymd_upd %>" />
+        <input type="hidden" name="id_upd" value="<%= file.id_upd %>" />
+        <input type="submit" value="更新" />
+      </form>
+      <form method="POST" action="/admin/file/download">
+        <p><%= file.originalfilename %><input type="submit" value="ダウンロード" /></p>
+        <input type="hidden" name="id" value="<%= file.id %>" />
+      </form>
+      <form method="POST" action="/admin/file/delete">
+        <input type="submit" value="削除" />
+        <input type="hidden" name="id" value="<%= file.id %>" />
+        <input type="hidden" name="originalfilename" value="<%= file.originalfilename %>" />
+        <input type="hidden" name="filepath" value="<%= file.filepath %>" />
+      </form>
+  <% } %>
+    <div class="btn-footer">
+      <a href="/admin/files" class="btn-link">戻る</a>
+      <% if (locals.user){ %>
+        <form method="POST" action="/logout">
+          <input type="submit" class="btn-link" button value="ログアウト" />
+        </form>
+      <% }  %>
+    </div>
+  </div>
+</body>
+
+</html>

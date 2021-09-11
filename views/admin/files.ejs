@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/stylesheets/destyle.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+  <title>ファイル管理</title>
+</head>
+
+<body>
+  <div class="main-container">
+    <% if (flashMessages) { %>
+      <% if (flashMessages.msg) { %>
+        <div class="alert">
+          <p class="alert-danger"><%= flashMessages.msg %></p>
+        </div>
+      <% } %>
+    <% } %>
+    <a href="/admin/file/">新規登録</a>
+    <hr>
+    <ul>
+      <% if (files) { %>
+      <%  files.forEach( file => { %>
+      <li>
+        <a href="/admin/file/<%= file.id %>"><%= file.title %></a>
+      </li>
+      <%  }) %>
+      <hr>
+      <% } %>
+    </ul>
+    <div class="btn-footer">
+      <a href="/" class="btn-link">戻る</a>
+      <% if (locals.user){ %>
+        <form method="POST" action="/logout">
+          <input type="submit" class="btn-link" button value="ログアウト" />
+        </form>
+      <% }  %>
+    </div>
+  </div>
+</body>
+
+</html>

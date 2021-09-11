@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/stylesheets/destyle.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+  <title>投稿情報編集</title>
+</head>
+
+<body>
+  <div class="main-container">
+    <% if (flashMessages) { %>
+      <% if (flashMessages.msg) { %>
+        <div class="alert">
+          <p class="alert-danger"><%= flashMessages.msg %></p>
+        </div>
+      <% } %>
+    <% } %>
+    <form name="postform" method="POST">
+      <div class="form-area">
+      <% if (mode === "insert") { %>
+        <div><input class="form-item-style" type="text" name="title" placeholder="タイトル" value="" autofocus required></div> 
+        <div><input class="form-item-style" type="text" name="content" placeholder="コンテンツ" value="" required></div> 
+        <div><input class="form-item-style" type="text" placeholder="参照可能者" value="" name="readers"></div>
+        <div><input class="form-item-style" type="text" placeholder="編集可能者" value="" name="editors"></div>
+        <input class="btn-update" type="button" id="btn_insert" value="登録">
+
+      <% } else { %>
+        <div><input class="form-item-style" type="text" name="title" placeholder="タイトル" value="<%= selectpost.title %>" autofocus required></div> 
+        <div><input class="form-item-style" type="text" name="content" placeholder="コンテンツ" value="<%= selectpost.content %>" required></div> 
+        <div><input class="form-item-style" type="text" placeholder="参照可能者" value="<%= selectpost.readers %>" name="readers"></div>
+        <div><input class="form-item-style" type="text" placeholder="編集可能者" value="<%= selectpost.editors %>" name="editors"></div>
+        <input type="hidden" name="id" value="<%= selectpost.id %>">
+        <input type="hidden" name="ymd_add" value="<%= selectpost.ymd_add %>">
+        <input type="hidden" name="id_add" value="<%= selectpost.id_add %>">
+        <input type="hidden" name="ymd_upd" value="<%= selectpost.ymd_upd %>">
+        <input type="hidden" name="id_upd" value="<%= selectpost.id_upd %>">
+        <input type="hidden" name="mode" value="<%= mode %>">
+        <input class="btn-update" type="button" id="btn_update" value="更新">
+        <input class="btn-delete" type="button" id="btn_delete" value="削除">
+      <% } %>
+      <input type="hidden" id="field_mode">
+      </div>
+    </form>
+    <div class="btn-footer">
+      <a href="/admin/posts" class="btn-link">戻る</a>
+      <% if (locals.user){ %>
+        <form method="POST" action="/logout">
+          <input type="submit" class="btn-link" button value="ログアウト" />
+        </form>
+      <% }  %>
+    </div>
+  </div>
+  <script>
+    let insertbtn = document.getElementById("btn_insert");
+    if (insertbtn) {
+      insertbtn.addEventListener("click", () => {
+        document.postform.action = "/admin/post/insert";
+        document.postform.submit();
+      })
+    }
+    let updatebtn = document.getElementById("btn_update");
+    if (updatebtn) {
+      updatebtn.addEventListener("click", () => {
+        document.postform.action = "/admin/post/update";
+        document.postform.submit();
+      })
+    }
+    let deletebtn = document.getElementById("btn_delete");
+    if (deletebtn) {
+      deletebtn.addEventListener("click", () => {
+        document.postform.action = "/admin/post/delete";
+        document.postform.submit();
+      })
+    }
+  </script>
+</body>
+
+</html>

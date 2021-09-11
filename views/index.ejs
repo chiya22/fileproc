@@ -7,10 +7,39 @@
 </head>
 
 <body>
-  <h1><%= title %></h1>
+  <% if (flashMessages) { %>
+    <% if (flashMessages.msg) { %>
+      <div class="alert">
+        <p class="alert-danger"><%= flashMessages.msg %></p>
+      </div>
+    <% } %>
+  <% } %>
+<h1><%= title %></h1>
   <p>Welcome to <%= title %></p>
-  <a href="/users">ユーザ管理</a>
-  <a href="/files">ファイル管理</a>
+  <ul>
+    <% if (posts) { %>
+    <hr>
+    <%  posts.forEach( post => { %>
+    <li>
+      <a class="btn" href="post/<%= post.id %>">
+        <%= post.title %> 追加年月日：<%= post.ymd_add %>　更新年月日：<%= post.ymd_upd %>
+      </a>
+    </li>
+    <%  }) %>
+    <% } %>
+  </ul>
+  <ul>
+    <% if (files) { %>
+    <hr>
+    <%  files.forEach( file => { %>
+    <li>
+      <a href="/admin/file/<%= file.id %>"><%= file.title %> 追加年月日：<%= file.ymd_add %>　更新年月日：<%= file.ymd_upd %></a>
+    </li>
+    <%  }) %>
+    <hr>
+    <% } %>
+  </ul>
+  <a href="/changepwd/<%= locals.user.id %>/<%= locals.user.ymd_end %>" >パスワード変更</a>
   <% if (locals.user){ %>
   <form method="POST" action="/logout">
     <input type="submit" button value="ログアウト" />

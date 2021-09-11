@@ -1,35 +1,35 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const security = require('../util/security');
-const hash = require('../util/hash').digest;
+const security = require("../../util/security");
+const hash = require("../../util/hash").digest;
 
-const users = require('../model/users');
-const tool = require('../util/tool');
+const users = require("../../model/users");
+const tool = require("../../util/tool");
 
-// メニューから登録画面（usersForm）へ
-router.get('/', security.authorize(), (req, res, next) => {
-  res.render('user', {
+// ユーザー一覧から登録画面（usersForm）へ
+router.get("/", security.authorize(), (req, res, next) => {
+  res.render("admin/user", {
     selectuser: null,
-    mode: 'insert',
+    mode: "insert",
     message: null,
   });
 });
 
 //ユーザIDを指定して更新画面（usersForm）へ
-router.get('/:id/:ymd_end', security.authorize(), (req, res, next) => {
+router.get("/:id/:ymd_end", security.authorize(), (req, res, next) => {
   (async () => {
     const retObjUser = await users.findPKey(req.params.id,req.params.ymd_end);
-    res.render('user', {
+    res.render("admin/user", {
       selectuser: retObjUser[0],
-      mode: 'update',
+      mode: "update",
       message: null,
     });
   })();
 });
 
 //ユーザ情報の登録
-router.post('/insert', security.authorize(), (req, res, next) => {
+router.post("/insert", security.authorize(), (req, res, next) => {
 
   let inObjUser = {};
   inObjUser.id = req.body.id;
@@ -45,10 +45,11 @@ router.post('/insert', security.authorize(), (req, res, next) => {
 
   if ((!req.body.id) || (!req.body.name) || (!req.body.password) || (!req.body.ymd_start) || (!req.body.ymd_end)) {
     req.flash("msg", "ID、名前、パスワード、適用開始日、適用終了日はすべて入力してください");
-    res.redirect('/user/insert');
+    res.redirect("/user/insert");
   }
 
-  const successUrl = `/user/${inObjUser.id}/${inObjUser.ymd_end}`;
+  const redirectUrl = `/admin/user/${inObjUser.id}/${inObjUser.before_ymd_end}`;
+  const successUrl = `/admin/user/${inObjUser.id}/${inObjUser.ymd_end}`;
 
   (async () => {
     try {
@@ -67,7 +68,7 @@ router.post('/insert', security.authorize(), (req, res, next) => {
       // Postgres
       // if (err.code === '23505') {
         req.flash("msg", "ユーザー【" + inObjUser.id + "】、適用終了日【" + inObjUser.ymd_end + "】はすでに存在しています");
-        res.redirect('/user/insert');
+        res.redirect("admin/user/insert");
       } else {
         throw err;
       }
@@ -77,7 +78,7 @@ router.post('/insert', security.authorize(), (req, res, next) => {
 });
 
 //ユーザ情報の更新
-router.post('/update', security.authorize(), (req, res, next) => {
+router.post("/update", security.authorize(), (req, res, next) => {
   let inObjUser = {};
   inObjUser.id = req.body.id;
   inObjUser.name = req.body.name;
@@ -92,8 +93,8 @@ router.post('/update', security.authorize(), (req, res, next) => {
   inObjUser.before_ymd_start = req.body.before_ymd_start;
   inObjUser.before_ymd_end = req.body.before_ymd_end;
 
-  const redirectUrl = `/user/${inObjUser.id}/${inObjUser.before_ymd_end}`;
-  const successUrl = `/user/${inObjUser.id}/${inObjUser.ymd_end}`;
+  const redirectUrl = `/admin/user/${inObjUser.id}/${inObjUser.before_ymd_end}`;
+  const successUrl = `/admin/user/${inObjUser.id}/${inObjUser.ymd_end}`;
 
   if ((!req.body.id) || (!req.body.name)) {
     req.flash("msg", "名前を入力してください");
@@ -120,7 +121,7 @@ router.post('/update', security.authorize(), (req, res, next) => {
 });
 
 //ユーザ情報の削除
-router.post('/delete', security.authorize(), function (req, res, next) {
+router.post("/delete", security.authorize(), function (req, res, next) {
   (async () => {
     try {
       const retObjUser = await users.remove(req.body.id, req.body.ymd_end);
@@ -132,12 +133,14 @@ router.post('/delete', security.authorize(), function (req, res, next) {
       // Postgres
       // if (err && err.code === '23503') {
         req.flash("msg", "削除対象のユーザー【" + id + "】は使用されています");
-        res.redirect('/user/' + req.body.id + '/' + req.body.ymd_end);
+        res.redirect("admin/user/" + req.body.id + "/" + req.body.ymd_end);
       } else {
         throw err;
       }
     }
   })();
 });
+
+
 
 module.exports = router;

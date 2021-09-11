@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="/stylesheets/destyle.css" />
   <link rel="stylesheet" href="/stylesheets/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
-  <title>ファイル管理</title>
+  <title>投稿情報一覧</title>
 </head>
 
 <body>
@@ -18,29 +18,27 @@
       <% } %>
     <% } %>
     <ul>
-      <% if (files) { %>
-      <%  files.forEach( file => { %>
+      <% if (posts) { %>
+      <%  posts.forEach( post => { %>
       <li>
-        <form method="POST" action="/files/download">
-          <p><%= file.originalname %><input type="submit" value="ダウンロード" /></p>
-          <input type="hidden" name="id" value="<%= file.id %>" />
-        </form>
+        <a class="btn" href="post/<%= post.id %>">
+          <%= post.title %> 追加年月日：<%= post.ymd_add %>　更新年月日：<%= post.ymd_upd %>
+        </a>
       </li>
       <%  }) %>
       <% } %>
     </ul>
-    <form method="POST" action="/files/upload" enctype="multipart/form-data">
-      <input type="file" name="file" required />
-      <input type="submit" value="アップロード" />
-    </form>
+    <div class="btn-footer">
+      <a class="btn-link" href="post/">新規登録</a>
+    </div>
     <div class="btn-footer">
       <a href="/" class="btn-link">戻る</a>
       <% if (locals.user){ %>
         <form method="POST" action="/logout">
           <input type="submit" class="btn-link" button value="ログアウト" />
         </form>
-      <% }  %>
-    </div>
+      <% } %>
+      </div>
   </div>
 </body>
 

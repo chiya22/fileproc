@@ -11,9 +11,12 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const userRouter = require('./routes/user');
-const filesRouter = require('./routes/files');
+const usersRouter = require('./routes/admin/users');
+const userRouter = require('./routes/admin/user');
+const postsRouter = require('./routes/admin/posts');
+const postRouter = require('./routes/admin/post');
+const filesRouter = require('./routes/admin/files');
+const fileRouter = require('./routes/admin/file');
 
 const app = express();
 
@@ -50,9 +53,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/user', userRouter);
-app.use('/files', filesRouter);
+app.use('/admin/users', usersRouter);
+app.use('/admin/user', userRouter);
+app.use('/admin/posts', postsRouter);
+app.use('/admin/post', postRouter);
+app.use('/admin/files', filesRouter);
+app.use('/admin/file', fileRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
